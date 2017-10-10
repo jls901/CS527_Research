@@ -1,0 +1,16 @@
+{
+  "TestName":"FluentValidation.Tests.AttributedValidatorFactoryTester",
+  "Dependencies":
+  [
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.AttributedValidatorFactoryTester",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Attributes.AttributedValidatorFactory",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.InstanceCache",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.AttributedValidatorFactoryTester/<>c",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Attributes.ValidatorAttribute",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.AttributedValidatorFactoryTester/TestValidator",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.AbstractValidator`1",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.TrackingCollection`1",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.AbstractValidator`1/<>c",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.TestExtensions",
+  ]
+}

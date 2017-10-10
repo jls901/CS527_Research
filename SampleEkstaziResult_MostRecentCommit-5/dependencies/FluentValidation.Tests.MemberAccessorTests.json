@@ -1,0 +1,12 @@
+{
+  "TestName":"FluentValidation.Tests.MemberAccessorTests",
+  "Dependencies":
+  [
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.MemberAccessorTests",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.Person",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.Address",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.Country",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.MemberAccessor`2",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.Extensions",
+  ]
+}

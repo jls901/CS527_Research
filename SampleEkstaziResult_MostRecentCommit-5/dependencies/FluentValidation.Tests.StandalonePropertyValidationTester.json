@@ -1,0 +1,27 @@
+{
+  "TestName":"FluentValidation.Tests.StandalonePropertyValidationTester",
+  "Dependencies":
+  [
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.StandalonePropertyValidationTester",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.StandalonePropertyValidationTester/<>c",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Validators.NotNullValidator",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Resources.LanguageStringSource",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Validators.PropertyValidator",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.ValidationContext",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.PropertyChain",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.ValidatorOptions",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.DefaultValidatorSelector",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.PropertyRule",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.PropertyRule/<>c",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.PropertyRule/<>c__DisplayClass40_0",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.Extensions",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Resources.LazyStringSource",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Validators.PropertyValidatorContext",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Validators.PropertyValidatorContext/<>c__DisplayClass24_0",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.MessageFormatter",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Results.ValidationFailure",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.TestExtensions",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Validators.EqualValidator",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.Comparer",
+  ]
+}

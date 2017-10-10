@@ -1,0 +1,10 @@
+{
+  "TestName":"FluentValidation.Tests.ComparerTester",
+  "Dependencies":
+  [
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.ComparerTester",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.Comparer",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.TestExtensions",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.ComparerTester/MyObject",
+  ]
+}

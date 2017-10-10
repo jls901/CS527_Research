@@ -1,0 +1,11 @@
+{
+  "TestName":"FluentValidation.Tests.TrackingCollectionTests",
+  "Dependencies":
+  [
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.TrackingCollectionTests",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.TrackingCollectionTests/<>c__DisplayClass1_0",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.TrackingCollection`1",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.TrackingCollection`1/EventDisposable",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.TestExtensions",
+  ]
+}

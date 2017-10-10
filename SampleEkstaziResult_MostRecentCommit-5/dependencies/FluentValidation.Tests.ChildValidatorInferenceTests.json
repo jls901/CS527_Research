@@ -1,0 +1,29 @@
+{
+  "TestName":"FluentValidation.Tests.ChildValidatorInferenceTests",
+  "Dependencies":
+  [
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.tests.dll.FluentValidation.Tests.ChildValidatorInferenceTests",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.InlineValidator`1",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.AbstractValidator`1",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.TrackingCollection`1",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.AbstractValidator`1/<>c",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.Extensions",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.PropertyRule",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.Extensions/<>c__DisplayClass10_0`2",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.PropertyRule/<>c",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.PropertyRule/<>c__DisplayClass39_0",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.ValidatorOptions",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.PropertyChain",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.PropertyChain/<>c",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Resources.LazyStringSource",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.RuleBuilder`2",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.Extensions/<>c",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Internal.Extensions/<>c__DisplayClass9_0",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.<>f__AnonymousType3`2",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Validators.ChildCollectionValidatorAdaptor",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Validators.ChildCollectionValidatorAdaptor/<>c__DisplayClass8_0",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Validators.NoopPropertyValidator",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.tests.dll.FluentValidation.Tests.TestExtensions",
+    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_fluentvalidation.dll.FluentValidation.Validators.ChildValidatorAdaptor",
+  ]
+}
