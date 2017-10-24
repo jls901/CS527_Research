@@ -1,7 +1,7 @@
-2017-10-23 19:52:32,488 INFO EkstaziSharp.Tester.ProjectRunner - Building project
-2017-10-23 19:52:32,500 DEBUG EkstaziSharp.Tester.ProjectRunner - Fetching Dependencies
-2017-10-23 19:52:32,505 DEBUG EkstaziSharp.Tester.ProjectRunner - Building Project
-2017-10-23 19:52:32,509 ERROR EkstaziSharp.Tester.ProjectRunner - Exception thrown
+2017-10-24 18:15:51,900 INFO EkstaziSharp.Tester.ProjectRunner - Building project
+2017-10-24 18:15:51,911 DEBUG EkstaziSharp.Tester.ProjectRunner - Fetching Dependencies
+2017-10-24 18:15:51,916 DEBUG EkstaziSharp.Tester.ProjectRunner - Building Project
+2017-10-24 18:15:51,920 ERROR EkstaziSharp.Tester.ProjectRunner - Exception thrown
 System.IO.FileNotFoundException: Could not find file 'D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll'.
 File name: 'D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll'
    at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
