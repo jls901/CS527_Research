@@ -1,9 +1,0 @@
-{
-  "TestName":"FluentValidation.Tests.MessageFormatterTests",
-  "Dependencies":
-  [
-    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.MessageFormatterTests",
-    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.dll.FluentValidation.Internal.MessageFormatter",
-    "d__uiuc-git_testprojects_fluentvalidation_src_fluentvalidation.tests_bin_debug_net452_fluentvalidation.tests.dll.FluentValidation.Tests.TestExtensions",
-  ]
-}

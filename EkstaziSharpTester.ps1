@@ -1,10 +1,10 @@
-$output_file="README.log"
+$output_file="./README.log"
 
 # -General
 $checkoutDir="D:\UIUC-GIT\TestProjects"
 $testingFramework="NUnit2"
-$resultsDir="$checkoutDir\Results"
-$numberOfCommitsToAnalyze=5
+$resultsDir="D:\UIUC-GIT\Results\Ekstazi#"
+$commitToAnalyze=200
 
 # -EkstaziPaths
 $ekstaziSharpProjectPath="D:\UIUC-GIT\ekstaziSharp"
@@ -13,17 +13,17 @@ $ekstaziSharpProjectFile="$ekstaziSharpProjectPath\tool\Tester\EkstaziSharp.Test
 $ekstaziSharpExecutable="$ekstaziSharpProjectPath\tool\Tester\bin\Debug\ekstaziSharpTester.exe"
 
 # -SolutionUnderTestPaths
-$solutionName="FluentValidation"
+$solutionName="OptiKey"
 $solutionUnderTestPath="$checkoutDir\$solutionName"
-$solutionUnderTestProjectFile="$solutionUnderTestPath\src\FluentValidation.Tests\FluentValidation.Tests.csproj"
-$solutionUnderTestSolutionFile="$solutionUnderTestPath\$solutionName.sln"
-$solutionUnderTestProgramModules="$solutionUnderTestPath\src\FluentValidation.Tests\bin\Debug\net452\FluentValidation.dll"
-$solutionUnderTestTestModules="$solutionUnderTestPath\src\FluentValidation.Tests\bin\Debug\net452\FluentValidation.Tests.dll"
-$solutionUnderTestGitHTTTPS="https://github.com/JeremySkinner/FluentValidation.git"
+$solutionUnderTestSolutionFilePath="$solutionName.sln"
+$projectUnderTestCsprojFilePath="src\JuliusSweetland.OptiKey\JuliusSweetland.OptiKey.csproj"
+$programModulesPath="src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\OptiKey.exe"
+$testModulesPath="src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll"
+
 
 function Build-DotNetProject {
     param([string] $projectPath, [string] $output_file)
-    msbuild $projectPath /verbosity:quiet >> $output_file
+    msbuild $projectPath /verbosity:quiet /t:Clean,Build >> $output_file
 }
 
 function NugetRestore-DotNetProject{
@@ -50,7 +50,7 @@ function ReverGitRepoXNumberOfCommintsBack {
     param([string] $gitRepoPath, [int] $numberOfCommitsBack)
     $workingDir = pwd
     cd $gitRepoPath
-    ResetGitRepo --gitRepoPath $gitRepoPath
+    ResetGitRepo
     git reset --hard HEAD~$numberOfCommitsBack
     git clean -xdff -e **/*/storage.ide
     cd $workingDir
@@ -58,10 +58,12 @@ function ReverGitRepoXNumberOfCommintsBack {
 
 function RunEkstaziSharp {
     param([string] $projectpath, [string] $solutionPath, [string] $programModules, [string] $testModules, 
-          [string] $testingFramework, [string] $outputDir, [string] $inputDir, [string] $ekstaziExecutable)
+          [string] $testingFramework, [string] $outputDir, [string] $inputDir, [string] $projectFilePath,
+          [string] $ekstaziExecutable)
      &$ekstaziExecutable `
           --testSource LocalProject `
 	      --projectPath $projectPath `
+          --projectFilePath $projectFilePath `
 	      --solutionPath $solutionPath `
 	      --programModules $programModules `
 	      --testModules $testModules `
@@ -91,19 +93,27 @@ SetupEkstaziSharp
 CloneGitRepo -gitURI $solutionUnderTestGitHTTTPS -gitSrcDir $checkoutDir
 
 
-for($i=$numberOfCommitsToAnalyze; $i -gt 0; $i-1) {
+while ($commitToAnalyze -gt 0) {
     #Checkout git commit i commits ago
-    ReverGitRepoXNumberOfCommintsBack -gitRepoPath $solutionUnderTestPath -numberOfCommitsBack $i
+    ReverGitRepoXNumberOfCommintsBack -gitRepoPath $solutionUnderTestPath -numberOfCommitsBack $commitToAnalyze
+
     # -Building a test project
     echo "Restoring nuget packages and building the test project"
-    NugetRestore-DotNetProject -projectSolution $solutionUnderTestSolutionFile -output_file $output_file 
-    Build-DotNetProject -projectPath $solutionUnderTestProjectFile -output_file $output_file
+    NugetRestore-DotNetProject -projectSolution "$solutionUnderTestPath\$solutionUnderTestSolutionFilePath" -output_file $output_file 
+    echo "$solutionUnderTestPath\$solutionUnderTestSolutionFilePath"
+    Build-DotNetProject -projectPath "$solutionUnderTestPath\$solutionUnderTestSolutionFilePath" -output_file $output_file
 
     # -Running test with EkstaziSharp
     echo "Running tests using EkstaziSharp"
-    RunEkstaziSharp -projectPath $solutionUnderTestPath -solutionPath $solutionUnderTestSolutionFile -programModules $solutionUnderTestProgramModules `
-                    -testModules $solutionUnderTestTestModules -testingFramework $testingFramework -outputDir $resultsDir -inputDir $resultsDir `
-                    -ekstaziExecutable $ekstaziSharpExecutable `
+    $fullOutputDir="$resultsDir\$solutionName\${commitToAnalyze}_Results"
+    $previousCommit=$commitToAnalyze+1
+    $fullInputDir="$resultsDir\$solutionName\${previousCommit}_Results"
+    echo $fullInputDir
+    RunEkstaziSharp -projectPath $solutionUnderTestPath -solutionPath $solutionUnderTestSolutionFilePath -programModules $programModulesPath `
+                    -testModules $testModulesPath -testingFramework $testingFramework -outputDir $fullOutputDir -inputDir "$fullInputDir" `
+                    -projectFilePath $projectUnderTestCsprojFilePath -ekstaziExecutable $ekstaziSharpExecutable 
+
+    $commitToAnalyze -= 1
 }
 
 

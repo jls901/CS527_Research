@@ -1,8 +1,0 @@
-2017-10-09 19:26:56,122 INFO EkstaziSharp.Tester.ProjectRunner - Building project
-2017-10-09 19:26:56,132 DEBUG EkstaziSharp.Tester.ProjectRunner - Fetching Dependencies
-2017-10-09 19:26:56,135 DEBUG EkstaziSharp.Tester.ProjectRunner - Building Project
-2017-10-09 19:26:56,230 WARN EkstaziSharp.Util.CILTransformer - Cannot read debugging symbols for following module: D:\UIUC-GIT\TestProjects\FluentValidation\src\FluentValidation.Tests\bin\Debug\net452\FluentValidation.dll
-2017-10-09 19:26:56,263 WARN EkstaziSharp.Util.CILTransformer - Cannot read debugging symbols for following module: D:\UIUC-GIT\TestProjects\FluentValidation\src\FluentValidation.Tests\bin\Debug\net452\FluentValidation.Tests.dll
-2017-10-09 19:26:56,689 DEBUG EkstaziSharp.Util.CecilExtensions - Cannot resolve type: FluentValidation.InlineValidator`1<FluentValidation.Tests.Person>
-2017-10-09 19:26:57,122 INFO EkstaziSharp.Tester.ProjectRunner - Executing tests
-2017-10-09 19:27:11,906 INFO EkstaziSharp.Tester.ProjectRunner - Test execution summary: Executed 573 tests in 4.839 seconds
