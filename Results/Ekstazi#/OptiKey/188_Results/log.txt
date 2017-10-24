@@ -1,0 +1,10 @@
+2017-10-23 19:10:32,217 INFO EkstaziSharp.Tester.ProjectRunner - Building project
+2017-10-23 19:10:32,227 DEBUG EkstaziSharp.Tester.ProjectRunner - Fetching Dependencies
+2017-10-23 19:10:32,231 DEBUG EkstaziSharp.Tester.ProjectRunner - Building Project
+2017-10-23 19:10:33,581 INFO EkstaziSharp.Tester.ProjectRunner - Executing tests
+2017-10-23 19:10:33,589 INFO EkstaziSharp.Tester.NUnit2TestExecutor - Running NUnit2 executor in App domain: ekstaziSharpTester.exe
+2017-10-23 19:10:33,908 DEBUG EkstaziSharp.Tester.NUnit2TestExecutor - <start-suite id="1-1270" name="D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll" fullname="D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll"/>
+2017-10-23 19:10:33,945 DEBUG EkstaziSharp.Tester.NUnit2TestExecutor - <test-suite type="Assembly" id="1-1270" name="D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll" fullname="D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll" runstate="Runnable" testcasecount="216" result="Inconclusive" duration="0.005767" total="216" passed="0" failed="0" inconclusive="0" skipped="0" asserts="0"><properties><property name="_PID" value="20032" /><property name="_APPDOMAIN" value="nunit2-test" /></properties></test-suite>
+2017-10-23 19:10:33,954 DEBUG EkstaziSharp.Tester.NUnitTestExecutor - Count of executed test cases counted through handler is not the same as in the execution results report
+2017-10-23 19:10:33,963 WARN EkstaziSharp.Tester.ProjectRunner - Number of tests scheduled for run does not match number of actually run tests
+2017-10-23 19:10:33,968 INFO EkstaziSharp.Tester.ProjectRunner - Test execution summary: Executed 0 tests in 0.005767 seconds

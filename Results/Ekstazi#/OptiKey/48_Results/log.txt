@@ -1,0 +1,11 @@
+2017-10-23 19:52:32,488 INFO EkstaziSharp.Tester.ProjectRunner - Building project
+2017-10-23 19:52:32,500 DEBUG EkstaziSharp.Tester.ProjectRunner - Fetching Dependencies
+2017-10-23 19:52:32,505 DEBUG EkstaziSharp.Tester.ProjectRunner - Building Project
+2017-10-23 19:52:32,509 ERROR EkstaziSharp.Tester.ProjectRunner - Exception thrown
+System.IO.FileNotFoundException: Could not find file 'D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll'.
+File name: 'D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.File.InternalCopy(String sourceFileName, String destFileName, Boolean overwrite, Boolean checkHost)
+   at System.IO.File.Copy(String sourceFileName, String destFileName, Boolean overwrite)
+   at EkstaziSharp.Tester.ProjectRunner.BackupModules() in D:\UIUC-GIT\ekstaziSharp\tool\Tester\EkstaziSharp.Tester.ProjectRunner\ProjectRunner.cs:line 77
+   at EkstaziSharp.Tester.ProjectRunner.Run() in D:\UIUC-GIT\ekstaziSharp\tool\Tester\EkstaziSharp.Tester.ProjectRunner\ProjectRunner.cs:line 270

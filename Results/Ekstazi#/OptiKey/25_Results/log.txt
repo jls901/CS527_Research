@@ -1,0 +1,10 @@
+2017-10-23 19:59:09,292 INFO EkstaziSharp.Tester.ProjectRunner - Building project
+2017-10-23 19:59:09,303 DEBUG EkstaziSharp.Tester.ProjectRunner - Fetching Dependencies
+2017-10-23 19:59:09,306 DEBUG EkstaziSharp.Tester.ProjectRunner - Building Project
+2017-10-23 19:59:11,954 INFO EkstaziSharp.Tester.ProjectRunner - Executing tests
+2017-10-23 19:59:11,961 ERROR EkstaziSharp.Tester.ProjectRunner - Exception thrown
+System.Exception: Appropriate Testing Framework not referenced from the module: D:\UIUC-GIT\TestProjects\OptiKey\src\JuliusSweetland.OptiKey.UnitTests\bin\Debug\JuliusSweetland.OptiKey.UnitTests.dll. Cannot run current test executor on this module!
+   at EkstaziSharp.Tester.TestExecutor.AssertTestingFrameworkReferenced(String testModule) in D:\UIUC-GIT\ekstaziSharp\tool\Tester\EkstaziSharp.Tester.TestExecutor\TestExecutor.cs:line 44
+   at EkstaziSharp.Tester.TestExecutor.Execute(String testModule, IEnumerable`1 testsToRun, String[] arguments) in D:\UIUC-GIT\ekstaziSharp\tool\Tester\EkstaziSharp.Tester.TestExecutor\TestExecutor.cs:line 54
+   at EkstaziSharp.Tester.ProjectRunner.ExecuteTests(String testModule, IEnumerable`1 testsToRun) in D:\UIUC-GIT\ekstaziSharp\tool\Tester\EkstaziSharp.Tester.ProjectRunner\ProjectRunner.cs:line 169
+   at EkstaziSharp.Tester.ProjectRunner.Run() in D:\UIUC-GIT\ekstaziSharp\tool\Tester\EkstaziSharp.Tester.ProjectRunner\ProjectRunner.cs:line 278
