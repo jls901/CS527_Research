@@ -1,4 +1,7 @@
-﻿function CloneGitRepo {
+﻿$tiaGitDirectory="D:\UIUC-GIT\TestProjectSourceVSTS\OptiKey\Test"
+$gitHubDirectory="D:\UIUC-GIT\TestProjects\OptiKey"
+
+function CloneGitRepo {
     param([string] $gitURI, [string] $gitSrcDir)
     $projectCloned = Test-Path $solutionUnderTestPath 
     if (-Not $projectCloned) {
@@ -13,6 +16,10 @@ function ResetGitRepo {
     git clean -xdff -e **/*/storage.ide
 }
 
+function CommitVSTSGitChanges {
+    
+}
+
 function ReverGitRepoXNumberOfCommintsBack {
     param([string] $gitRepoPath, [int] $numberOfCommitsBack)
     $workingDir = pwd
@@ -25,5 +32,21 @@ function ReverGitRepoXNumberOfCommintsBack {
 
 function CopyGitHubRepoToTFSGitRepo{
     param([string] $gitHubLocalPath, [string] $tfsRepoLocalPath)
-
 }
+
+function CleanGitDirectory {
+    $items= Get-ChildItem -Path  $tiaGitDirectory -Recurse  |
+    Select -ExpandProperty FullName |
+    Where {$_ -notlike '*TestAdaptors*'} |
+    sort length -Descending |
+    Remove-Item -Force
+}
+
+function CopyGitHubSrcToVSTSGitRepo {
+    Copy-Item "$gitHubDirectory\*" $tiaGitDirectory -Recurse
+}
+
+
+
+
+
