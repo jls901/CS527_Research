@@ -1,12 +1,14 @@
-﻿$tiaGitDirectory="D:\UIUC-GIT\TestProjectSourceVSTS\OptiKey\Test"
-$gitHubDirectory="D:\UIUC-GIT\TestProjects\OptiKey"
+﻿$tiaGitDirectory="/Users/jsmith/GitSrcUIUC/TestProjectSourceVSTS"
+$gitHubDirectory="/Users/jsmith/GitSrcUIUC/TestProjects"
+$gitHubSrcURI="https://github.com/OptiKey/OptiKey.git"
+$commitToAnalyze=200
 
 function CloneGitRepo {
     param([string] $gitURI, [string] $gitSrcDir)
     $projectCloned = Test-Path $solutionUnderTestPath 
     if (-Not $projectCloned) {
         echo "Cloning the project under test git repo"
-        git clone $solutionUnderTestGitHTTTPS "$gitSrcDir\$solutionName"
+        git clone $gitURI "$gitSrcDir\$solutionName"
     }
 }
 
@@ -17,7 +19,17 @@ function ResetGitRepo {
 }
 
 function CommitVSTSGitChanges {
-    
+    param([string] $msg)
+    git add -u
+    git commit -m $msg
+}
+
+function PushVSTSGitChanges {
+    param([string] $msg)
+    $workingDir = pwd
+    cd $tiaGitDirectory
+    CommitVSTSGitChanges -msg $msg
+    git push
 }
 
 function ReverGitRepoXNumberOfCommintsBack {
@@ -46,7 +58,14 @@ function CopyGitHubSrcToVSTSGitRepo {
     Copy-Item "$gitHubDirectory\*" $tiaGitDirectory -Recurse
 }
 
+CloneGitRepo -gitURI $gitHubSrcURI $gitHubDirectory
 
+while ($commitToAnalyze -gt 0) {
+    #Checkout git commit i commits ago
+    ReverGitRepoXNumberOfCommintsBack -gitRepoPath $solutionUnderTestPath -numberOfCommitsBack $commitToAnalyze
 
+    #Clean the VSTS git directory to copy into
+    CleanGitDirectory
 
-
+    $commitToAnalyze -= 1
+}
