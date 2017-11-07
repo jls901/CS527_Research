@@ -4,7 +4,8 @@ $output_file="./README.log"
 $checkoutDir="D:\UIUC-GIT\TestProjects"
 $testingFramework="NUnit2"
 $resultsDir="D:\UIUC-GIT\Results\Ekstazi#"
-$commitToAnalyze=200
+$commitToAnalyze=350
+$numberOfCommitsToAnalyze=200
 
 # -EkstaziPaths
 $ekstaziSharpProjectPath="D:\UIUC-GIT\ekstaziSharp"
@@ -84,18 +85,17 @@ function SetupEkstaziSharp {
     Build-DotNetProject -projectPath $ekstaziSharpProjectFile -output_file $output_file
 }
 
-
-
 #Restore nuget packages and build ekstazi# project
 SetupEkstaziSharp
 
 # -Setting up project under test
 CloneGitRepo -gitURI $solutionUnderTestGitHTTTPS -gitSrcDir $checkoutDir
 
-
-while ($commitToAnalyze -gt 0) {
+$numberOfCommitsLeft=$numberOfCommitsToAnalyze
+while ($numberOfCommitsLeft -gt 0) {
     #Checkout git commit i commits ago
-    ReverGitRepoXNumberOfCommintsBack -gitRepoPath $solutionUnderTestPath -numberOfCommitsBack $commitToAnalyze
+    $currentCommit=$commitToAnalyze-($numberOfCommitsToAnalyze - $numberOfCommitsLeft)
+    ReverGitRepoXNumberOfCommintsBack -gitRepoPath $solutionUnderTestPath -numberOfCommitsBack $currentCommit 
 
     # -Building a test project
     echo "Restoring nuget packages and building the test project"
@@ -105,15 +105,18 @@ while ($commitToAnalyze -gt 0) {
 
     # -Running test with EkstaziSharp
     echo "Running tests using EkstaziSharp"
-    $fullOutputDir="$resultsDir\$solutionName\${commitToAnalyze}_Results"
-    $previousCommit=$commitToAnalyze+1
-    $fullInputDir="$resultsDir\$solutionName\${previousCommit}_Results"
+    $fullOutputDir="$resultsDir\$solutionName\${currentCommit}_Results"
+    $fullInputDir="$resultsDir\$solutionName\ekstaziInfo\"
     echo $fullInputDir
     RunEkstaziSharp -projectPath $solutionUnderTestPath -solutionPath $solutionUnderTestSolutionFilePath -programModules $programModulesPath `
-                    -testModules $testModulesPath -testingFramework $testingFramework -outputDir $fullOutputDir -inputDir "$fullInputDir" `
+                    -testModules $testModulesPath -testingFramework $testingFramework -outputDir $fullInputDir -inputDir $fullInputDir `
                     -projectFilePath $projectUnderTestCsprojFilePath -ekstaziExecutable $ekstaziSharpExecutable 
 
-    $commitToAnalyze -= 1
+    New-Item $fullOutputDir -Type Directory
+    Copy-Item $resultsDir\$solutionName\ekstaziInfo\.ekstaziSharp\ekstaziInformation\executionLogs\* $fullOutputDir -Recurse -Force
+    Copy-Item $resultsDir\$solutionName\ekstaziInfo\.ekstaziSharp\ekstaziInformation\affected.json $fullOutputDir -Recurse -Force
+    Copy-Item $resultsDir\$solutionName\ekstaziInfo\.ekstaziSharp\ekstaziInformation\checksums.txt $fullOutputDir -Recurse -Force
+    $numberOfCommitsLeft -= 1
 }
 
 

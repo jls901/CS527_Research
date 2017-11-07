@@ -1,11 +1,13 @@
-﻿$tiaGitDirectory="/Users/jsmith/GitSrcUIUC/TestProjectSourceVSTS"
-$gitHubDirectory="/Users/jsmith/GitSrcUIUC/TestProjects"
+﻿$tiaGitSolutionDirectory="D:\UIUC-GIT\TestProjectSourceVSTS\OptiKey"
+$gitHubSolutionDirectory="D:\UIUC-GIT\TestProjects\OptiKey"
+$gitHubDirectory="D:\UIUC-GIT\TestProjects"
 $gitHubSrcURI="https://github.com/OptiKey/OptiKey.git"
-$commitToAnalyze=200
+$commitToAnalyze=350
+$numberOfCommitsToAnalyze=200
 
 function CloneGitRepo {
     param([string] $gitURI, [string] $gitSrcDir)
-    $projectCloned = Test-Path $solutionUnderTestPath 
+    $projectCloned = Test-Path $gitHubSolutionDirectory 
     if (-Not $projectCloned) {
         echo "Cloning the project under test git repo"
         git clone $gitURI "$gitSrcDir\$solutionName"
@@ -20,16 +22,17 @@ function ResetGitRepo {
 
 function CommitVSTSGitChanges {
     param([string] $msg)
-    git add -u
+    git add -A
     git commit -m $msg
 }
 
 function PushVSTSGitChanges {
     param([string] $msg)
     $workingDir = pwd
-    cd $tiaGitDirectory
+    cd $tiaGitSolutionDirectory
     CommitVSTSGitChanges -msg $msg
     git push
+    cd $workingDir
 }
 
 function ReverGitRepoXNumberOfCommintsBack {
@@ -42,12 +45,8 @@ function ReverGitRepoXNumberOfCommintsBack {
     cd $workingDir
 } 
 
-function CopyGitHubRepoToTFSGitRepo{
-    param([string] $gitHubLocalPath, [string] $tfsRepoLocalPath)
-}
-
 function CleanGitDirectory {
-    $items= Get-ChildItem -Path  $tiaGitDirectory -Recurse  |
+    $items= Get-ChildItem -Path  $tiaGitSolutionDirectory -Recurse  |
     Select -ExpandProperty FullName |
     Where {$_ -notlike '*TestAdaptors*'} |
     sort length -Descending |
@@ -55,17 +54,26 @@ function CleanGitDirectory {
 }
 
 function CopyGitHubSrcToVSTSGitRepo {
-    Copy-Item "$gitHubDirectory\*" $tiaGitDirectory -Recurse
+    Copy-Item "$gitHubSolutionDirectory\*" $tiaGitSolutionDirectory -Recurse
 }
 
 CloneGitRepo -gitURI $gitHubSrcURI $gitHubDirectory
 
-while ($commitToAnalyze -gt 0) {
+$numberOfCommitsLeft=$numberOfCommitsToAnalyze
+while ($numberOfCommitsLeft -gt 0) {
     #Checkout git commit i commits ago
-    ReverGitRepoXNumberOfCommintsBack -gitRepoPath $solutionUnderTestPath -numberOfCommitsBack $commitToAnalyze
+    $currentCommit=$commitToAnalyze-($numberOfCommitsToAnalyze - $numberOfCommitsLeft)
+    ReverGitRepoXNumberOfCommintsBack -gitRepoPath $gitHubSolutionDirectory -numberOfCommitsBack $currentCommit
 
     #Clean the VSTS git directory to copy into
     CleanGitDirectory
 
-    $commitToAnalyze -= 1
+    #Copy the Source GitHub Repo to VSTS Git Repo
+    CopyGitHubSrcToVSTSGitRepo
+
+    #Push the new changeset to VSTS
+    PushVSTSGitChanges -m "$currentCommit commits back from current GitHub head"
+
+    $numberOfCommitsLeft -= 1
+    Start-Sleep -s 60
 }
