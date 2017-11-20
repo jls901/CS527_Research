@@ -13,8 +13,8 @@ namespace ExtractTiaResults
     {
         static void Main(string[] args)
         {
-            var gitApi = new GitApi("/Users/smithj8-mac/uiucGitHub/OptiKey");
-            var sha1s = gitApi.GetCommitSha1s(50, 50);
+            var gitApi = new GitApi(@"D:\UIUC-GIT\TestProjectSourceVSTS\OptiKey");
+            var sha1s = gitApi.GetCommitSha1s(200, 200);
 
             var vstsApi = new VstsApi();
             var tiaBuilds = vstsApi.GetBuildsWithTestRuns(6);

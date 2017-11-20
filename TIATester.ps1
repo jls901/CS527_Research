@@ -1,6 +1,6 @@
 ﻿$tiaGitSolutionDirectory="D:\UIUC-GIT\TestProjectSourceVSTS\OptiKey"
-$gitHubSolutionDirectory="D:\UIUC-GIT\TestProjects\OptiKey"
-$gitHubDirectory="D:\UIUC-GIT\TestProjects"
+$gitHubSolutionDirectory="D:\UIUC-GIT\TestProjectsGitHubSourceTIA\OptiKey"
+$gitHubDirectory="D:\UIUC-GIT\TestProjectsGitHubSourceTIA"
 $gitHubSrcURI="https://github.com/OptiKey/OptiKey.git"
 $commitToAnalyze=350
 $numberOfCommitsToAnalyze=200
@@ -10,7 +10,7 @@ function CloneGitRepo {
     $projectCloned = Test-Path $gitHubSolutionDirectory 
     if (-Not $projectCloned) {
         echo "Cloning the project under test git repo"
-        git clone $gitURI "$gitSrcDir\$solutionName"
+        git clone $gitURI "$gitSrcDir"
     }
 }
 
@@ -57,7 +57,7 @@ function CopyGitHubSrcToVSTSGitRepo {
     Copy-Item "$gitHubSolutionDirectory\*" $tiaGitSolutionDirectory -Recurse
 }
 
-CloneGitRepo -gitURI $gitHubSrcURI $gitHubDirectory
+CloneGitRepo -gitURI $gitHubSrcURI -gitSrcDir $gitHubSolutionDirectory 
 
 $numberOfCommitsLeft=$numberOfCommitsToAnalyze
 while ($numberOfCommitsLeft -gt 0) {
@@ -75,5 +75,5 @@ while ($numberOfCommitsLeft -gt 0) {
     PushVSTSGitChanges -m "$currentCommit commits back from current GitHub head"
 
     $numberOfCommitsLeft -= 1
-    Start-Sleep -s 60
+    Start-Sleep -s 30
 }
