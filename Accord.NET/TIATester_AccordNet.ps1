@@ -61,7 +61,7 @@ function CleanVSTSDirectory {
 
 function CopyGitHubSrcToVSTSGitRepo {
     # rsync -rvu -I -P --chmod=Fo=rwx,Fg=rwx $gitHubSolutionDirectory/* $tiaGitSolutionDirectory
-     xcopy $gitHubSolutionDirectory $tiaGitSolutionDirectory /r /v /i /y /e
+     xcopy $gitHubSolutionDirectory $tiaGitSolutionDirectory 
 }
 
 CloneGitRepo -gitURI $gitHubSrcURI -gitSrcDir $gitHubSolutionDirectory 
