@@ -3,7 +3,7 @@ $tiaGitSolutionDirectory="$rootTestDir/TestProjectsVSTS/Accord.NET"
 $gitHubSolutionDirectory="$rootTestDir/TestProjects/framework"
 $gitHubDirectory="$rootTestDir/TestProjects"
 $gitHubSrcURI="https://github.com/accord-net/framework.git"
-$commitToAnalyze=500
+$commitToAnalyze=350
 $numberOfCommitsToAnalyze=1
 
 function CloneGitRepo {
@@ -43,22 +43,24 @@ function ReverGitRepoXNumberOfCommintsBack {
     ResetGitRepo
     git reset --hard HEAD~$numberOfCommitsBack
     git clean -xdff -e **/*/storage.ide
+    git submodule init
+    git submodule update
     cd $workingDir
 } 
 
 function CleanVSTSDirectory {
     $vstsFolderExists = Test-Path $tiaGitSolutionDirectory 
     if ($vstsFolderExists) {
-        $items= Get-ChildItem -Path  $tiaGitSolutionDirectory -Recurse  |
+        Get-ChildItem -Path  $tiaGitSolutionDirectory -Recurse  |
         Select -ExpandProperty FullName |
         Where {$_ -notlike '*TestAdaptors*'} |
         sort-object length -Descending |
-        Remove-Item -Force -Recurse
+        Remove-Item -Force -Recurse 
     }
 }
 
 function CopyGitHubSrcToVSTSGitRepo {
-    Copy-Item "$gitHubSolutionDirectory\*" $tiaGitSolutionDirectory -Recurse
+    rsync -rvu -I -P --chmod=Fo=rwx,Fg=rwx --exclude=Samples $gitHubSolutionDirectory/* $tiaGitSolutionDirectory
 }
 
 CloneGitRepo -gitURI $gitHubSrcURI -gitSrcDir $gitHubSolutionDirectory 
@@ -75,7 +77,7 @@ while ($numberOfCommitsLeft -gt 0) {
     #Copy the Source GitHub Repo to VSTS Git Repo
      CopyGitHubSrcToVSTSGitRepo
 
-    # #Push the new changeset to VSTS
+    #Push the new changeset to VSTS
      PushVSTSGitChanges -m "$currentCommit commits back from current GitHub head"
 
      $numberOfCommitsLeft -= 1
