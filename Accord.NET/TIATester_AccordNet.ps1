@@ -1,7 +1,7 @@
-﻿$rootTestDir="/Users/smithj8-mac/uiucGitHub"
-$tiaGitSolutionDirectory="$rootTestDir/TestProjectsVSTS/Accord.NET"
-$gitHubSolutionDirectory="$rootTestDir/TestProjects/framework"
-$gitHubDirectory="$rootTestDir/TestProjects"
+﻿$rootTestDir="D:/UIUC-GIT"
+$tiaGitSolutionDirectory="$rootTestDir/TestProjectSourceVSTS/Accord.NET"
+$gitHubSolutionDirectory="$rootTestDir/TestProjectsGitHubSourceTIA/framework"
+$gitHubDirectory="$rootTestDir/TestProjectsGitHubSourceTIA"
 $gitHubSrcURI="https://github.com/accord-net/framework.git"
 $commitToAnalyze=350
 $numberOfCommitsToAnalyze=1

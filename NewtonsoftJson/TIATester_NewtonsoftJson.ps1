@@ -1,5 +1,5 @@
-﻿$tiaGitSolutionDirectory="W:\UIUC-GIT\TestProjectSourceVSTS\Newtonsoft.Json"
-$gitHubSolutionDirectory="W:\TestProjects\Newtonsoft.Json"
+﻿$tiaGitSolutionDirectory="D:\UIUC-GIT\TestProjecSourceVSTS\Newtonsoft.Json"
+$gitHubSolutionDirectory="D:\UIUC-GIT\TestProjectsGitHubSourceTIA\Newtonsoft.Json"
 $gitHubDirectory="D:\UIUC-GIT\TestProjectsGitHubSourceTIA"
 $gitHubSrcURI="https://github.com/JamesNK/Newtonsoft.Json.git"
 $commitToAnalyze=600
@@ -59,11 +59,11 @@ function CopyGitHubSrcToVSTSGitRepo {
 
 CloneGitRepo -gitURI $gitHubSrcURI -gitSrcDir $gitHubSolutionDirectory 
 
-$numberOfCommitsLeft=$numberOfCommitsToAnalyze
-# while ($numberOfCommitsLeft -gt 0) {
-    #Checkout git commit i commits ago
-    $currentCommit=$commitToAnalyze-($numberOfCommitsToAnalyze - $numberOfCommitsLeft)
-    ReverGitRepoXNumberOfCommintsBack -gitRepoPath $gitHubSolutionDirectory -numberOfCommitsBack $currentCommit
+# $numberOfCommitsLeft=$numberOfCommitsToAnalyze
+# # while ($numberOfCommitsLeft -gt 0) {
+#     #Checkout git commit i commits ago
+#     $currentCommit=$commitToAnalyze-($numberOfCommitsToAnalyze - $numberOfCommitsLeft)
+#     ReverGitRepoXNumberOfCommintsBack -gitRepoPath $gitHubSolutionDirectory -numberOfCommitsBack $currentCommit
 
     #Clean the VSTS git directory to copy into
     # CleanGitDirectory
