@@ -1,10 +1,10 @@
 ﻿$rootTestDir="D:/UIUC-GIT"
-$tiaGitSolutionDirectory="$rootTestDir/TestProjectSourceVSTS/Accord.NET"
-$gitHubSolutionDirectory="$rootTestDir/TestProjectsGitHubSourceTIA/framework"
+$tiaGitSolutionDirectory="$rootTestDir/TestProjectSourceVSTS/FluentValidation"
+$gitHubSolutionDirectory="$rootTestDir/TestProjectsGitHubSourceTIA/FluentValidation"
 $gitHubDirectory="$rootTestDir/TestProjectsGitHubSourceTIA"
-$gitHubSrcURI="https://github.com/accord-net/framework.git"
-$commitToAnalyze=350
-$numberOfCommitsToAnalyze=50
+$gitHubSrcURI="https://github.com/JeremySkinner/FluentValidation.git"
+$commitToAnalyze=800
+$numberOfCommitsToAnalyze=100
 
 function CloneGitRepo {
     param([string] $gitURI, [string] $gitSrcDir)
@@ -68,12 +68,10 @@ function GetCurrentGitHubCommitHash {
     return $gitHash
 }
 
-
 function CopyGitHubSrcToVSTSGitRepo {
     # rsync -rvu -I -P --chmod=Fo=rwx,Fg=rwx $gitHubSolutionDirectory/* $tiaGitSolutionDirectory
     robocopy /e /NFL /NDL /NJH /NJS /nc /ns "$gitHubSolutionDirectory\" "$tiaGitSolutionDirectory\" /XD .git 
 }
-
 
 CloneGitRepo -gitURI $gitHubSrcURI -gitSrcDir $gitHubSolutionDirectory 
 
@@ -94,5 +92,5 @@ while ($numberOfCommitsLeft -gt 0) {
     PushVSTSGitChanges -m "$currentCommit commits back from current GitHub head Hash:$gitCommitHash"
 
     $numberOfCommitsLeft -= 1
-    Start-Sleep -s 2880 
+    Start-Sleep -s 30
 }

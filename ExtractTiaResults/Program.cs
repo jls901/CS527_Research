@@ -6,38 +6,99 @@ using System.Collections.Generic;
 using System.Linq;
 using ExtractTiaResults.Services;
 using ExtractTiaResults.Models;
+using ExtractTiaResults.models;
+using CsvHelper;
+using System.IO;
 
 namespace ExtractTiaResults
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            var gitApi = new GitApi(@"D:\UIUC-GIT\TestProjectSourceVSTS\OptiKey");
-            var sha1s = gitApi.GetCommitSha1s(200, 200);
+            // ///Newtonsoft parameters
+            // var newtonsoftResultApiConfig = new ExtractTiaResultsApiConfig() {
+            //     gitHubRepoLocalSourcePath = @"D:\UIUC-GIT\TestProjectsGitHubSourceTIA\Newtonsoft.Json",
+            //     vstsRepoLocalSourcePathRepo = @"D:\UIUC-GIT\TestProjectSourceVSTS\NewtonsoftJson",
+            //     vstsTiaBuildId = 12,
+            //     vstsRetestAllBuildId = 14,
+            //     BuildsAfter = new DateTime(2017,12,11,2,20,0),
+            //     VstsRepoName = "NewtonsoftJson"
+            // };
+            // var newtonsofEkstaziSharpResultsDir = @"D:\UIUC-GIT\Results\Ekstazi#\Newtonsoft.Json";
 
-            var vstsApi = new VstsApi();
-            var tiaBuilds = vstsApi.GetBuildsWithTestRuns(6);
-            var regBuilds = vstsApi.GetBuildsWithTestRuns(7);
+            //Nancy parameters
+            var nancyResultApiConfig = new ExtractTiaResultsApiConfig() {
+                gitHubRepoLocalSourcePath = @"D:\UIUC-GIT\TestProjectsGitHubSourceTIA\Nancy",
+                vstsRepoLocalSourcePathRepo = @"D:\UIUC-GIT\TestProjectSourceVSTS\NancyFx",
+                vstsTiaBuildId = 18,
+                vstsRetestAllBuildId = 17,
+                BuildsAfter = new DateTime(2017,12,15,0,0,0),
+                VstsRepoName = "NancyFx"
+            };
+            var nancyEkstaziSharpResultsDir = @"D:\UIUC-GIT\Results\Ekstazi#\Nancy";
 
-            var buildsToAnalyze = new List<Build>(); 
-            var colHeaders = string.Format("{0} \t {1} \t {2} \t {3} \t {4} \t {5} \t {6} \t {7} \t {8}", "Checkin", 
-                                                "TIA Runtime", "TIA Total Tests", "TIA Passed Tests", "TIA Unanalyzed Tests", 
-                                                "Reg Runtime", "Reg Total Tests", "Reg Passed Tests", "Reg Unanalyzed Tests");
-            Console.WriteLine(colHeaders.ToString());
+            // //FluentValidation parameters
+            // var fluentValidationResultApiConfig = new ExtractTiaResultsApiConfig() {
+            //     gitHubRepoLocalSourcePath = @"D:\UIUC-GIT\TestProjectsGitHubSourceTIA\FluentValidation",
+            //     vstsRepoLocalSourcePathRepo = @"D:\UIUC-GIT\TestProjectSourceVSTS\FluentValidation",
+            //     vstsTiaBuildId = 2,
+            //     vstsRetestAllBuildId = 3,
+            //     BuildsAfter = new DateTime(2017,12,11, 2,40,0),
+            //     VstsRepoName = "FluentValidation"
+            // };
+            // var fluentValidationEkstaziSharpResultsDir = @"D:\UIUC-GIT\Results\Ekstazi#\FluentValidation";
 
-            foreach(var sha1 in sha1s)
+            // //OptiKey parameters
+            // var optiKeyResultApiConfig = new ExtractTiaResultsApiConfig() {
+            //     gitHubRepoLocalSourcePath = @"D:\UIUC-GIT\TestProjectsGitHubSourceTIA\OptiKey",
+            //     vstsRepoLocalSourcePathRepo = @"D:\UIUC-GIT\TestProjectSourceVSTS\OptiKey",
+            //     vstsTiaBuildId = 6,
+            //     vstsRetestAllBuildId = 7,
+            //     BuildsAfter = new DateTime(2017,12,14,0,0,0),
+            //     VstsRepoName = "OptiKey"
+            // };
+            // var optiKeyEkstaziSharpResultsDir = @"D:\UIUC-GIT\Results\Ekstazi#\OptiKey";
+
+            // //Accord.Net parameters
+            // var accordResultApiConfig = new ExtractTiaResultsApiConfig() {
+            //     gitHubRepoLocalSourcePath = @"D:\UIUC-GIT\TestProjectsGitHubSourceTIA\framework",
+            //     vstsRepoLocalSourcePathRepo = @"D:\UIUC-GIT\TestProjectSourceVSTS\Accord.Net",
+            //     vstsTiaBuildId = 15,
+            //     vstsRetestAllBuildId = 16,
+            //     BuildsAfter = new DateTime(2017,12,7,0,0,0),
+            //     VstsRepoName = "Accord.Net"
+            // };
+            // var accordEkstaziSharpResultsDir = @"D:\UIUC-GIT\Results\Ekstazi#\framework_bad";
+
+
+            //Grab the results from Visual Studio Team Services
+            var vstsResultsApi = new ExtractTiaResultsApi(nancyResultApiConfig);
+            var tiaResults = vstsResultsApi.ExtractVstsTiaTestResults().OrderBy(x => x.MetaInfo);
+            var retestAllResults = vstsResultsApi.ExtractVstsRetestAllTestResults().OrderBy(x => x.MetaInfo);
+
+            //Grab the results from the local stored Ekstazi# result files
+            var ekstaziSharpApi = new ExtractEkstaziSharpResultsApi(nancyEkstaziSharpResultsDir);
+            var ekstaziSharpResults = ekstaziSharpApi.ExtractEkstaziResults().OrderBy(x => x.MetaInfo); 
+
+            //Combine the results together
+            var comparisonResults = new List<ComparisonResultsModel>();
+            foreach(var result in tiaResults)
             {
-                var tiaBuild = tiaBuilds.FirstOrDefault(x => x.sourceVersion == sha1.Value);
-                var regBuild = regBuilds.FirstOrDefault(x => x.sourceVersion == sha1.Value);
+                var retestAllResult = retestAllResults.FirstOrDefault(x => x.GitHubHash == result.GitHubHash);
+                var ekstaziSharpResult = ekstaziSharpResults.FirstOrDefault(x => x.GitHubHash == result.GitHubHash);
 
-                if(tiaBuild.testRun != null && regBuild.testRun != null)
+                if(retestAllResult != null && ekstaziSharpResult != null)
                 {
-                    var formattedOutput = string.Format("{0} \t {1} \t {2} \t {3} \t {4} \t {5} \t {6} \t {7} \t {8}", sha1.Key, 
-                                                            tiaBuild.testRun.runTime.ToString(), tiaBuild.testRun.totalTests, tiaBuild.testRun.passedTests, tiaBuild.testRun.unanalyzedTests, 
-                                                            regBuild.testRun.runTime.ToString(), regBuild.testRun.totalTests, regBuild.testRun.passedTests, regBuild.testRun.unanalyzedTests);
-                    Console.WriteLine(formattedOutput);
+                    comparisonResults.Add(new ComparisonResultsModel(result, retestAllResult, ekstaziSharpResult, result.GitHubHash));
                 }
+            }
+
+            //Print the results to a csv file
+            using(var sw = new StreamWriter("nancyResults.csv"))
+            {
+                var csv = new CsvWriter(sw);
+                csv.WriteRecords(comparisonResults);
             }
         }
     }

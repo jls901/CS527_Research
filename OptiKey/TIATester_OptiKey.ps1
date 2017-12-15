@@ -2,8 +2,8 @@
 $gitHubSolutionDirectory="D:\UIUC-GIT\TestProjectsGitHubSourceTIA\OptiKey"
 $gitHubDirectory="D:\UIUC-GIT\TestProjectsGitHubSourceTIA"
 $gitHubSrcURI="https://github.com/OptiKey/OptiKey.git"
-$commitToAnalyze=500
-$numberOfCommitsToAnalyze=200
+$commitToAnalyze=349
+$numberOfCommitsToAnalyze=99
 
 function CloneGitRepo {
     param([string] $gitURI, [string] $gitSrcDir)
@@ -42,19 +42,34 @@ function ReverGitRepoXNumberOfCommintsBack {
     ResetGitRepo
     git reset --hard HEAD~$numberOfCommitsBack
     git clean -xdff -e **/*/storage.ide
+    git submodule init
+    git submodule update
     cd $workingDir
 } 
 
-function CleanGitDirectory {
-    $items= Get-ChildItem -Path  $tiaGitSolutionDirectory -Recurse  |
-    Select -ExpandProperty FullName |
-    Where {$_ -notlike '*TestAdaptors*'} |
-    sort length -Descending |
-    Remove-Item -Force
+function CleanVSTSDirectory {
+    $vstsFolderExists = Test-Path $tiaGitSolutionDirectory 
+    if ($vstsFolderExists) {
+        Get-ChildItem -Path  $tiaGitSolutionDirectory -Recurse  |
+        Select -ExpandProperty FullName |
+        Where {$_ -notlike '*TestAdaptors*'} |
+        sort-object length -Descending |
+        Remove-Item -Force -Recurse 
+    }
+}
+
+function GetCurrentGitHubCommitHash {
+    param([string] $gitRepoPath)
+    $workingDir = pwd
+    cd $gitRepoPath
+    $gitHash = git rev-parse HEAD 
+    cd $workingDir
+    return $gitHash
 }
 
 function CopyGitHubSrcToVSTSGitRepo {
-    Copy-Item "$gitHubSolutionDirectory\*" $tiaGitSolutionDirectory -Recurse
+    # rsync -rvu -I -P --chmod=Fo=rwx,Fg=rwx $gitHubSolutionDirectory/* $tiaGitSolutionDirectory
+    robocopy /e /NFL /NDL /NJH /NJS /nc /ns "$gitHubSolutionDirectory\" "$tiaGitSolutionDirectory\" /XD .git 
 }
 
 CloneGitRepo -gitURI $gitHubSrcURI -gitSrcDir $gitHubSolutionDirectory 
@@ -66,13 +81,14 @@ while ($numberOfCommitsLeft -gt 0) {
     ReverGitRepoXNumberOfCommintsBack -gitRepoPath $gitHubSolutionDirectory -numberOfCommitsBack $currentCommit
 
     #Clean the VSTS git directory to copy into
-    CleanGitDirectory
+    CleanVSTSDirectory
 
     #Copy the Source GitHub Repo to VSTS Git Repo
     CopyGitHubSrcToVSTSGitRepo
 
     #Push the new changeset to VSTS
-    PushVSTSGitChanges -m "$currentCommit commits back from current GitHub head"
+    $gitCommitHash=GetCurrentGitHubCommitHash $gitHubSolutionDirectory
+    PushVSTSGitChanges -m "$currentCommit commits back from current GitHub head Hash:$gitCommitHash"
 
     $numberOfCommitsLeft -= 1
     Start-Sleep -s 30

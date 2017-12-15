@@ -11,25 +11,33 @@ namespace ExtractTiaResults.Services
 {
     public class VstsApi 
     {
-        public List<Build> GetBuilds(int buildDefId) {
-            var getBuilds = GetBuildsFromVSTS(buildDefId);
-            getBuilds.Wait();
-            return getBuilds.Result;
-        }
-    
-        public List<Build> GetBuildsWithTestRuns(int buildDefId) {
-            var builds = this.GetBuilds(buildDefId); 
+        public List<Build> GetBuildsWithTestRuns(int buildDefId, string repoName, DateTime buildRanAfter = new DateTime()) {
+            var builds = this.GetBuilds(buildDefId, repoName, buildRanAfter); 
             foreach(var build in builds)
             {
-                var testRun = this.GetTestRun(build);
+                var testRun = this.GetTestRun(build, repoName);
                 build.testRun = testRun; 
             }
             return builds;
         }
+        
+        public List<Build> GetBuilds(int buildDefId, string repoName, DateTime buildRanAfter = new DateTime()) {
+            var getBuilds = GetBuildsFromVSTS(buildDefId, repoName, buildRanAfter);
+            getBuilds.Wait();
+            return getBuilds.Result;
+        }
 
-        private async Task<List<Build>> GetBuildsFromVSTS(int buildDefId)
+        private async Task<List<Build>> GetBuildsFromVSTS(int buildDefId, string repoName, DateTime buildRanAfter)
         {
-            var request = string.Format("https://fa17-cs527-48.visualstudio.com/OptiKey/_apis/build/builds?api-version=2.0&statusFilter=completed&definitions={0}&minFinishTime=2017-11-6T00:00:00&sourceVersion=c54299272ee41b2197ddea74395e709dba59bbe7", buildDefId);
+            var request = string.Format("https://fa17-cs527-48.visualstudio.com/{0}/_apis/build/builds?api-version=2.0&statusFilter=completed&definitions={1}&minFinishTime={2}-{3}-{4}T{5}:{6}:{7}", 
+                                        repoName,
+                                        buildDefId, 
+                                        buildRanAfter.Year.ToString(),
+                                        buildRanAfter.Month.ToString(),
+                                        buildRanAfter.Day.ToString(),
+                                        buildRanAfter.ToString("hh"),
+                                        buildRanAfter.ToString("mm"),
+                                        buildRanAfter.ToString("ss"));
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", "Basic OmVza3ozc2tlenNieTJrYWd1a3FhaWZ2bnF0enFoZXpxNWtzcm83NmVhNG42NHBwMnBjeXE=");
             var serializer = new DataContractJsonSerializer(typeof(TiaBuildResponse));
@@ -38,16 +46,16 @@ namespace ExtractTiaResults.Services
             return builds.value; 
         }
 
-        public TestRun GetTestRun(Build build)
+        public TestRun GetTestRun(Build build, string repoName)
         {
-            var getTestRun = GetTestRunFromVSTS(build.uri);
+            var getTestRun = GetTestRunFromVSTS(build.uri, repoName);
             getTestRun.Wait();
             return getTestRun.Result;
         }
 
-        private async Task<TestRun> GetTestRunFromVSTS(string buildUri)
+        private async Task<TestRun> GetTestRunFromVSTS(string buildUri, string repoName)
         {
-            var request = string.Format("https://fa17-cs527-48.visualstudio.com/OptiKey/_apis/test/runs?includeRunDetails=true&api-version=1.0&buildUri={0}", buildUri);
+            var request = string.Format("https://fa17-cs527-48.visualstudio.com/{0}/_apis/test/runs?includeRunDetails=true&api-version=1.0&buildUri={1}", repoName, buildUri);
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("Authorization", "Basic OmVza3ozc2tlenNieTJrYWd1a3FhaWZ2bnF0enFoZXpxNWtzcm83NmVhNG42NHBwMnBjeXE=");
             var serializer = new DataContractJsonSerializer(typeof(TiaTestRunResponse));

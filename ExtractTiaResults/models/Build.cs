@@ -15,5 +15,7 @@ namespace ExtractTiaResults.Models
         public string uri { get; set; }
         public int commitLabel { get; set; }
         public TestRun testRun { get; set; }
+        public string GitHubSha1 { get; set; }
+        public string VstsCommitMessage { get; set; }
     }
 }

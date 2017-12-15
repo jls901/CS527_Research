@@ -12,54 +12,56 @@ namespace ExtractTiaResults.Services
 {
     public class GitApi 
     {
-        private string gitRepoDirectory = string.Empty;
-        public GitApi(string gitRepoDir)
+        private string vstsgitRepoDirectory = string.Empty;
+        private string gitHubGitRepo = string.Empty;
+
+        public GitApi(string vstsGitRepo, string gitHubGitRepo)
         {
-            this.gitRepoDirectory = gitRepoDir;
+            this.vstsgitRepoDirectory = vstsGitRepo;
+            this.gitHubGitRepo = gitHubGitRepo;
         }
-        public Dictionary<string, string> GetCommitSha1s(int buildsBack, int numberOfBuilds)
+
+        public Dictionary<string, string> GetVSTSCommitSha1s(int buildsBack, int numberOfBuilds)
         {
             var commitShas = new Dictionary<string, string>(); 
             var numberOfCommitsLeft = numberOfBuilds; 
             while(numberOfCommitsLeft > 0)
             {
                 var currentCommit = buildsBack-(numberOfBuilds - numberOfCommitsLeft);
-                var commitSha1 = this.GetComminSha1XCommitsBack(currentCommit);
+                var commitSha1 = this.GetCommitSha1XCommitsBack(currentCommit);
                 var commitMsg = this.GetCommitMessage(commitSha1);
                 commitShas.Add(commitMsg, commitSha1);
                 numberOfCommitsLeft--; 
             }
             return commitShas;
         }
+
+        public string GetVstsCommitMessageForTriggeredBuild(Build build) 
+        {
+            var command = string.Format("show -s --oneline {0}", build.sourceVersion).ToString();
+            return RunGitCommand(command, this.vstsgitRepoDirectory);
+        }
     
         private string GetCommitMessage(string commitId)
         {
-            var commitSha1 = string.Empty;
-            var proc = new Process {
-                StartInfo = new ProcessStartInfo {
-                    WorkingDirectory = this.gitRepoDirectory,
-                    FileName = "git",
-                    Arguments = string.Format("show -s --oneline {0}", commitId).ToString(),
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    CreateNoWindow = true
-                }
-            };
-            proc.Start();
-            while (!proc.StandardOutput.EndOfStream) {
-                commitSha1 += proc.StandardOutput.ReadLine();
-            }
-            return commitSha1;
+            var command = string.Format("show -s --oneline {0}", commitId).ToString();
+            return RunGitCommand(command, this.vstsgitRepoDirectory);
         } 
         
-        private string GetComminSha1XCommitsBack(int xCommitsBack)
+        private string GetCommitSha1XCommitsBack(int xCommitsBack)
         {
-            var commitSha1 = string.Empty;
+            var command = string.Format("rev-parse Head~{0}", xCommitsBack).ToString();
+            return RunGitCommand(command, this.vstsgitRepoDirectory);
+        } 
+
+        private string RunGitCommand(string command, string workingDirectory)
+        {
+            var commandResponse = string.Empty;
             var proc = new Process {
                 StartInfo = new ProcessStartInfo {
-                    WorkingDirectory = this.gitRepoDirectory,
+                    WorkingDirectory = workingDirectory,
                     FileName = "git",
-                    Arguments = string.Format("rev-parse Head~{0}", xCommitsBack).ToString(),
+                    Arguments = command,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     CreateNoWindow = true
@@ -67,9 +69,9 @@ namespace ExtractTiaResults.Services
             };
             proc.Start();
             while (!proc.StandardOutput.EndOfStream) {
-                commitSha1 += proc.StandardOutput.ReadLine();
+                commandResponse += proc.StandardOutput.ReadLine();
             }
-            return commitSha1;
-        } 
+            return commandResponse;
+        }
     }
 }

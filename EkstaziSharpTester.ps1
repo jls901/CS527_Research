@@ -11,7 +11,7 @@ $numberOfCommitsToAnalyze=200
 $ekstaziSharpProjectPath="D:\UIUC-GIT\ekstaziSharp"
 $ekstaziSharpSolutionFile="$ekstaziSharpProjectPath\tool\ekstaziSharp.sln"
 $ekstaziSharpProjectFile="$ekstaziSharpProjectPath\tool\Tester\EkstaziSharp.Tester.csproj"
-$ekstaziSharpExecutable="$ekstaziSharpProjectPath\tool\Tester\bin\Debug\ekstaziSharpTester.exe"
+$ekstaziSharpExecutable="$ekstaziSharpProjectPath\build\EkstaziSharp.Tester\ekstaziSharpTester.exe"
 
 # -SolutionUnderTestPaths
 $solutionName="OptiKey"
@@ -59,8 +59,7 @@ function ReverGitRepoXNumberOfCommintsBack {
 
 function RunEkstaziSharp {
     param([string] $projectpath, [string] $solutionPath, [string] $programModules, [string] $testModules, 
-          [string] $testingFramework, [string] $outputDir, [string] $inputDir, [string] $projectFilePath,
-          [string] $ekstaziExecutable)
+          [string] $testingFramework, [string] $outputDir, [string] $inputDir, [string] $ekstaziExecutable)
      &$ekstaziExecutable `
           --testSource LocalProject `
 	      --projectPath $projectPath `
@@ -110,7 +109,7 @@ while ($numberOfCommitsLeft -gt 0) {
     echo $fullInputDir
     RunEkstaziSharp -projectPath $solutionUnderTestPath -solutionPath $solutionUnderTestSolutionFilePath -programModules $programModulesPath `
                     -testModules $testModulesPath -testingFramework $testingFramework -outputDir $fullInputDir -inputDir $fullInputDir `
-                    -projectFilePath $projectUnderTestCsprojFilePath -ekstaziExecutable $ekstaziSharpExecutable 
+                    -ekstaziExecutable $ekstaziSharpExecutable 
 
     New-Item $fullOutputDir -Type Directory
     Copy-Item $resultsDir\$solutionName\ekstaziInfo\.ekstaziSharp\ekstaziInformation\executionLogs\* $fullOutputDir -Recurse -Force
@@ -118,5 +117,22 @@ while ($numberOfCommitsLeft -gt 0) {
     Copy-Item $resultsDir\$solutionName\ekstaziInfo\.ekstaziSharp\ekstaziInformation\checksums.txt $fullOutputDir -Recurse -Force
     $numberOfCommitsLeft -= 1
 }
+
+# private static string[] cmdLineExample = {
+#     "--testSource",
+#     "LocalProject",
+#     "--projectPath",
+#     "D:\\UIUC-GIT\\TestProjects\\framework",
+#     "--programModules",
+#     "Unit Tests\\bin\\Debug\\AnyCPU\\Accord.Statistics.dll,Unit Tests\\bin\\Debug\\AnyCPU\\Accord.Math.dll,Unit Tests\\bin\\Debug\\AnyCPU\\Accord.dll",
+#     "--testModules",
+#     "Unit Tests\\bin\\Debug\\AnyCPU\\Accord.Tests.Statistics.dll,Unit Tests\\bin\\Debug\\AnyCPU\\Accord.Tests.Core.dll",
+#     "--testingFramework",
+#     "NUnit3",
+#     "--inputDirectory",
+#     "D:\\UIUC-GIT\\Results\\Ekstazi#\\framework",
+#     "--outputDirectory",
+#     "D:\\UIUC-GIT\\Results\\Ekstazi#\\framework",
+#     "--debug" };
 
 

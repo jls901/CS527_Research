@@ -1,22 +1,27 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ExtractTiaResults.Models;
 
-namespace ExtractEkstaziSharpResults
+namespace ExtractTiaResults.Services
 {
-    class Program
+    public class ExtractEkstaziSharpResultsApi
     {
-        static void Main(string[] args)
+        private string resultsDirectory;
+
+        public ExtractEkstaziSharpResultsApi(string resultsDirectory)
         {
-            var workingDir = @"D:\UIUC-GIT\Results\Ekstazi#\OptiKey"; 
-            var restultDirectories = Directory.GetDirectories(workingDir).ToList().Where(x => !x.Contains("ekstazi")).ToList();
+            this.resultsDirectory = resultsDirectory;
+        }
 
-            var colHeaders = string.Format("{0} \t {1} \t {2} \t {3} \t {4}", "Checkin", 
-                                                "TIA Runtime", "TIA Total Tests", "TIA Passed Tests", "TIA Unanalyzed Tests");
-            Console.WriteLine(colHeaders.ToString());
+        public IEnumerable<TestResults> ExtractEkstaziResults()
+        {
+            var ekstaziResulstFolders = Directory.GetDirectories(this.resultsDirectory).ToList().Where(x => !x.Contains("ekstazi")).ToList();
+            var testResults = new List<TestResults>(); 
 
-            foreach(var resultDir in restultDirectories.OrderByDescending(x => x))
+            foreach(var resultDir in ekstaziResulstFolders.OrderByDescending(x => x))
             {
                 var resultFile = @resultDir + @"\test_results.txt";
                 if (File.Exists(resultFile))
@@ -53,13 +58,29 @@ namespace ExtractEkstaziSharpResults
                         }
                     }
 
-                    var folderName = Path.GetFileName(resultDir);
                     unanalyzedTests = (Convert.ToInt32(totalTests) - (Convert.ToInt32(passedTests) + Convert.ToInt32(failedTests))).ToString();
-                    var formattedOutput = string.Format("{0} \t {1} \t {2} \t {3} \t {4}", folderName, 
-                                                            runtime, totalTests, passedTests, failedTests);
-                    Console.WriteLine(formattedOutput);
+                    var folderName = Path.GetFileName(resultDir);
+                    testResults.Add(new TestResults() {
+                        GitHubHash = this.ExtractGitHubHashFromFolderName(folderName),
+                        MetaInfo = folderName,
+                        TotalTests = Convert.ToInt32(totalTests),
+                        NumberOfTestsFailed = Convert.ToInt32(failedTests),
+                        NumberOfUnAnalyzedTests = Convert.ToInt32(unanalyzedTests),
+                        NumberofTestsPassed = Convert.ToInt32(passedTests),
+                        Runtime = TimeSpan.FromSeconds(Convert.ToDouble(runtime))
+                    });
                 }
             }
+            return testResults;
         }
+    
+        private string ExtractGitHubHashFromFolderName(string folderName)
+        {
+            var startIndex = folderName.IndexOf("_") + 1;
+            var endIndex = folderName.LastIndexOf("_");
+            var length = endIndex - startIndex;
+            return folderName.Substring(startIndex, length);
+        }
+
     }
 }
