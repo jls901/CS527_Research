@@ -1,0 +1,30 @@
+{
+  "ExecutionTime": 0.093808,
+  "ExecutedTestClassesCount": 1,
+  "TotalNumberOfTestClasses": 2,
+  "TestClassSelectionRation": 0.5,
+  "ExecutedTestMethodsCount": 1,
+  "TotalNumberOfTestMethods": 3,
+  "TestMethodsSelectionRatio": 0.33333333333333331,
+  "PassedTestMethodsCount": 1,
+  "FailedTestMethodsCount": 0,
+  "SkippedTestMethodsCount": 0,
+  "ExecutedTestClasses": [
+    "FakeMathLibrary.Test.CalcAddTests"
+  ],
+  "ExecutedTestMethods": [
+    "FakeMathLibrary.Test.CalcAddTests.AddDoubleTestBasic"
+  ],
+  "FailedTestMethods": [],
+  "NotExecutedTestClasses": [],
+  "NotExecutedTestMethods": [],
+  "TestClasses": [
+    "FakeMathLibrary.Test.CalcAddTests",
+    "FakeMathLibrary.Test.CalcMultTests"
+  ],
+  "TestMethods": [
+    "FakeMathLibrary.Test.CalcAddTests.AddDoubleTestBasic",
+    "FakeMathLibrary.Test.CalcMultTests.MultiplyTwoNumbers",
+    "FakeMathLibrary.Test.CalcMultTests.TestTestsWithNamesThatAreWayTooLongAsIfThatIsATotalThingToDoIAmReallyGettingTiredOfNamingthisThenSimulateKeyStrokesShouldBeSetToTheConfiguredKeyboardTestTestsWithNamesThatAreWayTooLongAsIfThatIsATotalThingToDoIAmReallyGettingTiredOfNamingthisThenSimulateKeyStrokesShouldBeSetToTheConfiguredKeyboard"
+  ]
+}
